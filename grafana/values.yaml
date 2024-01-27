@@ -206,7 +206,7 @@ gossipPortName: gossip
 ##
 service:
   enabled: true
-  type: NodePort
+  type: ClusterIP
   loadBalancerIP: ""
   loadBalancerClass: ""
   loadBalancerSourceRanges: []
@@ -248,13 +248,13 @@ hostAliases: []
   #     - "my.host.com"
 
 ingress:
-  enabled: true
+  enabled: false
   # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
   # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
-  ingressClassName: nginx
+  # ingressClassName: nginx
   # Values can be templated
   annotations: {}
-    kubernetes.io/ingress.class: nginx
+    # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   labels: {}
   path: /
@@ -263,7 +263,7 @@ ingress:
   pathType: Prefix
 
   hosts:
-    - grafana.automationlabs.work.gd
+    - chart-example.local
   ## Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
   extraPaths: []
   # - path: /*
@@ -281,9 +281,9 @@ ingress:
 
 
   tls: []
-   - secretName: argocd-tls-secret
-     hosts:
-       - grafana.automationlabs.work.gd
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
 
 resources: {}
 #  limits:
