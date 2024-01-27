@@ -34,7 +34,7 @@ fluent-bit:
   enabled: false
 
 grafana:
-  enabled: true
+  enabled: false
   sidecar:
     datasources:
       label: ""
@@ -42,8 +42,7 @@ grafana:
       enabled: true
       maxLines: 1000
   image:
-    tag: 9.2.6
-  adminPassword: admin#123
+    tag: 8.3.5
 
 prometheus:
   enabled: false
