@@ -35,6 +35,8 @@ fluent-bit:
 
 grafana:
   enabled: true
+    service:
+    type: NodePort
   persistence:
     enabled: true
     # existingClaim: "grafana-pvc" # Provide an existing PVC name or remove this line to create a new PVC
