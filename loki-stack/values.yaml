@@ -21,6 +21,7 @@ loki:
     jsonData: "{}"
     uid: ""
 
+
 promtail:
   enabled: true
   config:
@@ -33,32 +34,28 @@ fluent-bit:
   enabled: false
 
 grafana:
-  enabled: true
-  persistence:
-    enabled: true
-    # existingClaim: "grafana-pvc" # Provide an existing PVC name or remove this line to create a new PVC
+  enabled: false
   sidecar:
     datasources:
       label: ""
       labelValue: ""
       enabled: true
       maxLines: 1000
-  adminUser: "admin"
-  adminPassword: "admin@123"
   image:
     tag: 8.3.5
 
 prometheus:
   enabled: true
-  isDefault: false
-  url: "http://prometheus-server:80" # Update with your Prometheus server details
+  isDefault: true
+  url: http://{{ include "prometheus.fullname" .}}:{{ .Values.prometheus.server.service.servicePort }}{{ .Values.prometheus.server.prefixURL }}
   datasource:
     jsonData: "{}"
 
 filebeat:
-  enabled: true
+  enabled: false
   filebeatConfig:
     filebeat.yml: |
+      # logging.level: debug
       filebeat.inputs:
       - type: container
         paths:
@@ -69,13 +66,10 @@ filebeat:
             matchers:
             - logs_path:
                 logs_path: "/var/log/containers/"
-      output.loki:
-        hosts: ["loki:3100"]
-        # username: "test"
-        # password: "test"
-
+      output.logstash:
+        hosts: ["logstash-loki:5044"]
 logstash:
-  enabled: true
+  enabled: false
   image: grafana/logstash-output-loki
   imageTag: 1.0.1
   filters:
@@ -100,12 +94,15 @@ logstash:
       output {
         loki {
           url => "http://loki:3100/loki/api/v1/push"
-          # username => "test"
-          # password => "test"
+          #username => "test"
+          #password => "test"
         }
         # stdout { codec => rubydebug }
       }
-
+# proxy is currently only used by loki test pod
+# Note: If http_proxy/https_proxy are set, then no_proxy should include the
+# loki service name, so that tests are able to communicate with the loki
+# service.
 proxy:
   http_proxy: ""
   https_proxy: ""
