@@ -56,7 +56,7 @@ grafana:
   ingress:
     enabled: true
     annotations: 
-    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+      nginx.ingress.kubernetes.io/ssl-passthrough: "true"
     hosts:
       - grafana.automationlabs.work.gd
     path: /
@@ -65,12 +65,12 @@ grafana:
       service:
         name: loki-grafana
         port:
-          name: 8001
+          number: 8001
     tls:
-   - secretName: argocd-tls-secret
-     hosts:
-       - grafana.automationlabs.work.gd
-    
+      - secretName: argocd-tls-secret
+        hosts:
+          - grafana.automationlabs.work.gd
+  
 
 prometheus:
   enabled: false
