@@ -34,13 +34,18 @@ fluent-bit:
   enabled: false
 
 grafana:
-  enabled: false
+  enabled: true
+  persistence:
+    enabled: true
+    # existingClaim: "grafana-pvc" # Provide an existing PVC name or remove this line to create a new PVC
   sidecar:
     datasources:
       label: ""
       labelValue: ""
       enabled: true
       maxLines: 1000
+  adminUser: "admin"
+  adminPassword: "admin@123"
   image:
     tag: 8.3.5
 
