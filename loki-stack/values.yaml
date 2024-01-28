@@ -35,6 +35,9 @@ fluent-bit:
 
 grafana:
   enabled: true
+  type: ClusterIP
+  port: 80
+  targetPort: 3000
   persistence:
     enabled: true
     # existingClaim: "grafana-pvc" # Provide an existing PVC name or remove this line to create a new PVC
@@ -48,6 +51,7 @@ grafana:
   adminPassword: "admin@123"
   image:
     tag: 8.3.5
+    
 
 prometheus:
   enabled: false
