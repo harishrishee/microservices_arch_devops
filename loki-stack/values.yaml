@@ -34,31 +34,22 @@ fluent-bit:
   enabled: false
 
 grafana:
-  enabled: true
-  persistence:
-    enabled: true
-    # existingClaim: "grafana-pvc" # Provide an existing PVC name or remove this line to create a new PVC
+  enabled: false
   sidecar:
     datasources:
       label: ""
       labelValue: ""
       enabled: true
       maxLines: 1000
-  adminUser: "admin"
-  adminPassword: "admin@123"
   image:
     tag: 8.3.5
 
 prometheus:
-  enabled: true
-  isDefault: true
+  enabled: false
+  isDefault: false
   url: http://{{ include "prometheus.fullname" .}}:{{ .Values.prometheus.server.service.servicePort }}{{ .Values.prometheus.server.prefixURL }}
   datasource:
     jsonData: "{}"
-  additionalDataSources:
-    - name: Loki
-      type: loki
-      url: http://loki:3100
 
 filebeat:
   enabled: false
@@ -77,6 +68,7 @@ filebeat:
                 logs_path: "/var/log/containers/"
       output.logstash:
         hosts: ["logstash-loki:5044"]
+
 logstash:
   enabled: false
   image: grafana/logstash-output-loki
@@ -108,6 +100,7 @@ logstash:
         }
         # stdout { codec => rubydebug }
       }
+
 # proxy is currently only used by loki test pod
 # Note: If http_proxy/https_proxy are set, then no_proxy should include the
 # loki service name, so that tests are able to communicate with the loki
