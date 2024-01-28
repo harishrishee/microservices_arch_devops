@@ -53,6 +53,17 @@ grafana:
   adminPassword: "admin@123"
   image:
     tag: 8.3.5
+  ingress:
+    enabled: true
+    annotations: 
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    path: /
+      pathType: Prefix
+      backend:
+        service:
+          name: loki-grafana
+          port:
+            number: 8001
     
 
 prometheus:
