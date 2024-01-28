@@ -48,6 +48,19 @@ grafana:
   adminPassword: "admin@123"
   image:
     tag: 8.3.5
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: nginx  # Replace with the actual ingress class used in your cluster
+      nginx.ingress.kubernetes.io/rewrite-target: /
+    hosts:
+      - grafana.automationlabs.work.gd  # Replace with your desired domain
+    paths:
+      - /
+    tls:
+      - secretName: argocd-tls-secret  # Replace with your secret name
+        hosts:
+          - grafana.automationlabs.work.gd  # Replace with your desired domain
 
 prometheus:
   enabled: false
