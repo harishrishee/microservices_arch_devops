@@ -1,0 +1,19 @@
+appName: "react-ui"
+
+service:
+  name: "ui"
+  portName: "https"
+  port: 8080
+  targetPort: 8080
+  type: "NodePort"
+
+deployment:
+  name: "react-ui"
+  replicas: 1
+  containerName: "react-ui"
+  containerPort: 8080
+
+image:
+  repository: "harishrishee/react-ui"
+  tag: "1.16.0"
+  pullPolicy: "IfNotPresent"
