@@ -35,8 +35,6 @@ fluent-bit:
 
 grafana:
   enabled: true
-  service:
-    enabled: false  # Disable the NodePort service
   persistence:
     enabled: true
     # existingClaim: "grafana-pvc" # Provide an existing PVC name or remove this line to create a new PVC
@@ -54,15 +52,15 @@ grafana:
     enabled: true
     annotations: 
       nginx.ingress.kubernetes.io/ssl-passthrough: "true"
-    hosts:
-      - grafana.automationlabs.work.gd
     path: /
     pathType: Prefix
-    backend:
-      service:
-        name: loki-grafana
-        port:
-          number: 3000  # Use the actual port where Grafana is running
+    hosts:
+      - grafana.automationlabs.work.gd
+    # backend:
+    #   service:
+    #     name: loki-grafana
+    #     port:
+    #       number: 3000  # Use the actual port where Grafana is running
     tls:
       - secretName: argocd-tls-secret
         hosts:
