@@ -5,10 +5,10 @@
 replicaCount: 1
 
 image:
-  repository: harishrishee/react-ui
+  repository: teju792/dockerpracticee
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "1.16.0"
+  tag: "v1"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -44,7 +44,7 @@ service:
   port: 8080
 
 ingress:
-  enabled: false
+  enabled: true
   className: ""
   annotations:
     kubernetes.io/ingress.class: nginx
