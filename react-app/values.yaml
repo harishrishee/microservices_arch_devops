@@ -46,7 +46,7 @@ service:
 ingress:
   enabled: true
   className: ""
-  annotations: {}
+  annotations:
     kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
@@ -54,7 +54,7 @@ ingress:
       paths:
         - path: /
           pathType: Prifix
-  tls: []
+  tls:
    - secretName: app-tls-secret
      hosts:
        - app.automationlabs.work.gd
