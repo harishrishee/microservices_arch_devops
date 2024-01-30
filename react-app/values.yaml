@@ -53,7 +53,7 @@ ingress:
     - host: app.automationlabs.work.gd
       paths:
         - path: /
-          pathType: Prifix
+          pathType: Prefix
   tls:
    - secretName: app-tls-secret
      hosts:
