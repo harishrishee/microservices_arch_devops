@@ -456,6 +456,7 @@ controller:
     # Override for the default paths that map requests to the backend
     paths: 
     - backend:
+        pathType: Prefix
         serviceName: jenkins
         servicePort: 8080
     # - backend:
