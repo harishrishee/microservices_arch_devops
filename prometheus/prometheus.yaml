@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 global:
   scrape_interval: 15s
 
@@ -7,3 +8,14 @@ scrape_configs:
       - targets: ['localhost:9090']
 
   # Add additional scrape configurations for your applications
+=======
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # Add additional scrape configurations for your applications
+>>>>>>> 3d03ab02d99f343cf5d1d5297cf8d65a99790328
