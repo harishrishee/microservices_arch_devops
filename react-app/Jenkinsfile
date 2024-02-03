@@ -1,0 +1,75 @@
+pipeline {
+  agent any
+
+  parameters {
+    string(name: 'DOCKERHUB_USERNAME', defaultValue: '', description: 'DockerHub username')
+    string(name: 'APP_NAME', defaultValue: '', description: 'Name of your ReactJS app')
+  }
+
+  environment {
+    // Define environment variables if needed
+    REACT_APP_ENV = 'production'
+  }
+
+  stages {
+    stage('Clone Git Repository') {
+      steps {
+        script {
+          // Clone the Git repository
+          git credentialsId: 'your-git-credentials-id', url: 'https://github.com/your-username/your-repo.git'
+        }
+      }
+    }
+
+    stage('Install Dependencies') {
+      steps {
+        script {
+          // Install Node.js and npm (if not already installed)
+          sh 'curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -'
+          sh 'sudo apt-get install -y nodejs'
+          
+          // Install project dependencies
+          sh 'npm install'
+        }
+      }
+    }
+
+    stage('Run Tests') {
+      steps {
+        script {
+          // Run tests (adjust the test command as needed)
+          sh 'npm test'
+        }
+      }
+    }
+
+    stage('Build React App') {
+      steps {
+        script {
+          // Build the React app
+          sh 'npm run build'
+        }
+      }
+    }
+
+    stage('Build Docker Image') {
+      steps {
+        script {
+          // Build Docker image
+          def dockerImage = "${params.DOCKERHUB_USERNAME}/${params.APP_NAME}:latest"
+          sh "docker build -t ${dockerImage} ."
+          env.DOCKER_IMAGE = dockerImage
+        }
+      }
+    }
+
+    stage('Push to DockerHub') {
+      steps {
+        script {
+          // Push Docker image to DockerHub
+          sh "docker push ${env.DOCKER_IMAGE}"
+        }
+      }
+    }
+  }
+}
