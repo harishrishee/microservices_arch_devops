@@ -52,15 +52,15 @@ controller:
   # you should revert controller.admin.username to your preferred admin user:
   admin:
     username: "admin"
-    password: "admin@123"
+    # password: "admin@123"
 
     userKey: jenkins-admin-user
     passwordKey: jenkins-admin-password
 
     # The default configuration uses this secret to configure an admin user
     # If you don't need that user or use a different security realm then you can disable it
-    createSecret: false
-    existingSecret: ""
+    createSecret: true
+    existingSecret: "jenkins"
 
   # This values should not be changed unless you use your custom image of jenkins or any devired from. If you want to use
   # Cloudbees Jenkins Distribution docker, you should set jenkinsHome: "/var/cloudbees-jenkins-distribution"
