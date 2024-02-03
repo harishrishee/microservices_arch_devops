@@ -16,7 +16,7 @@ pipeline {
       steps {
         script {
           // Clone the Git repository
-          git credentialsId: 'PAT', url: 'https://github.com/harishrishee/microservices_arch_devops.git'
+          git branch: 'react-app', credentialsId: 'PAT', url: 'https://github.com/harishrishee/microservices_arch_devops.git'
         }
       }
     }
