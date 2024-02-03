@@ -52,10 +52,10 @@ controller:
   # you should revert controller.admin.username to your preferred admin user:
   admin:
     username: "admin"
-    # password: <defaults to random>
+    password: "admin@123"
 
-    userKey: jenkins-admin-user
-    passwordKey: jenkins-admin-password
+    # userKey: jenkins-admin-user
+    # passwordKey: jenkins-admin-password
 
     # The default configuration uses this secret to configure an admin user
     # If you don't need that user or use a different security realm then you can disable it
@@ -106,7 +106,7 @@ controller:
   # If you are not using the provided ingress you can specify `controller.jenkinsUrl` to change the url definition.
   # jenkinsUrl: ""
   # If you set this prefix and use ingress controller then you might want to set the ingress path below
-  # jenkinsUriPrefix: "/jenkins"
+  # jenkinsUriPrefix: "/"
   # Enable pod security context (must be `true` if podSecurityContextOverride, runAsUser or fsGroup are set)
   usePodSecurityContext: true
   # Note that `runAsUser`, `fsGroup`, and `securityContextCapabilities` are
