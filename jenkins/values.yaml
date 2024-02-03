@@ -54,8 +54,8 @@ controller:
     username: "admin"
     password: "admin@123"
 
-    # userKey: jenkins-admin-user
-    # passwordKey: jenkins-admin-password
+    userKey: jenkins-admin-user
+    passwordKey: jenkins-admin-password
 
     # The default configuration uses this secret to configure an admin user
     # If you don't need that user or use a different security realm then you can disable it
