@@ -59,7 +59,7 @@ controller:
 
     # The default configuration uses this secret to configure an admin user
     # If you don't need that user or use a different security realm then you can disable it
-    createSecret: true
+    createSecret: false
     existingSecret: ""
 
   # This values should not be changed unless you use your custom image of jenkins or any devired from. If you want to use
