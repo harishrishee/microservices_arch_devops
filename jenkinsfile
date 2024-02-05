@@ -1,0 +1,57 @@
+pipeline {
+    agent any
+
+    tools {
+        maven 'maven' // Specify the Maven installation name
+    }
+    
+    environment {
+        SONAR_URL = 'http://sonarcube-sonarqube:9000'
+        SONAR_TOKEN = credentials('sonarcube-token')
+        CERTIFICATE_CREDENTIAL_ID = 'certificateAutomationLabs'
+    }
+
+    stages {
+        stage('Clone Git Repository') {
+            steps {
+                script {
+                    // Clone the Git repository
+                    git branch: 'shoes-microservice-spring-boot-svc', credentialsId: 'PAT', url: 'https://github.com/harishrishee/microservices_arch_devops.git'
+                }
+            }
+        }
+
+        // Uncomment this block if SSL certificate installation is necessary
+        // stage('Install SSL Certificate') {
+        //     steps {
+        //         script {
+        //             // Retrieve the SSL certificate from Jenkins credentials
+        //             withCredentials([file(credentialsId: CERTIFICATE_CREDENTIAL_ID, variable: 'CERTIFICATE_FILE')]) {
+        //                 // Import the certificate into Java keystore
+        //                 sh """
+        //                     keytool -import -alias sonarqube -keystore \$JAVA_HOME/lib/security/cacerts -file \${CERTIFICATE_FILE} -storepass changeit -noprompt -cacerts
+        //                 """
+        //             }
+        //         }
+        //     }
+        // }
+
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('sonarcube') {
+                    // sh "mvn clean verify sonar:sonar -Dsonar.projectKey=shoes-microservice-spring-boot-svc -Dsonar.projectName='shoes-microservice-spring-boot-svc'"
+                    sh "mvn clean verify sonar:sonar -Dsonar.projectKey=shoes-microservice-spring-boot-svc -Dsonar.projectName='shoes-microservice-spring-boot-svc' -Dsonar.host.url=${SONAR_URL} -Dsonar.login=${SONAR_TOKEN}"
+                }
+                // sh "mvn clean verify sonar:sonar -Dsonar.projectKey=shoes-microservice-spring-boot-svc -Dsonar.projectName='shoes-microservice-spring-boot-svc' -Dsonar.host.url=${SONAR_URL} -Dsonar.login=${SONAR_TOKEN}"
+            }
+        }
+
+        stage('Build') {
+            steps {
+                script {
+                    sh 'mvn clean install'
+                }
+            }
+        }
+    }
+}
