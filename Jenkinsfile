@@ -5,7 +5,6 @@ pipeline {
 
     tools {
         maven 'maven' // Specify the Maven installation name
-        docker { image 'node:20.11.0-alpine3.19' }
     }
     
     environment {
