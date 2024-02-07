@@ -1,7 +1,5 @@
 pipeline {
-    agent {
-        dockerfile true
-    }
+    agent any
 
     tools {
         maven 'maven' // Specify the Maven installation name
