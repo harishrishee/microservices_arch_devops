@@ -34,17 +34,18 @@ pipeline {
     // }
     stage('Build and Push Docker Image') {
       environment {
+        DOCKER_REGISTRY_CREDENTIALS = credentials('docker-hub-credentials')
         DOCKER_IMAGE = "harishrishee/mavensvc:${BUILD_NUMBER}"
         // DOCKERFILE_LOCATION = "java-maven-sonar-argocd-helm-k8s/spring-boot-app/Dockerfile"
         REGISTRY_CREDENTIALS = credentials('dockerHub')
       }
       steps {
         script {
-            sh 'docker build -t ${DOCKER_IMAGE} .'
-            def dockerImage = docker.image("${DOCKER_IMAGE}")
-            docker.withRegistry('https://index.docker.io/v1/', "dockerHub") {
-                dockerImage.push()
+            docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+                        sh 'docker login -u $DOCKER_REGISTRY_CREDENTIALS_USR -p $DOCKER_REGISTRY_CREDENTIALS_PSW'
             }
+            sh 'docker build -t ${DOCKER_IMAGE} .'
+            sh 'docker push ${DOCKER_IMAGE}'
         }
       }
     }
