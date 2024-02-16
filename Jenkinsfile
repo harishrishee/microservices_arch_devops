@@ -1,10 +1,13 @@
 pipeline {
-  agent any
-
-  tools {
-        maven 'Maven 3.9.6'
+  agent {
+        docker {
+            image 'maven:3.9.6'
+            args '-v /var/run/docker.sock:/var/run/docker.sock'
+        }
   }
-
+  // tools {
+  //       maven 'Maven 3.9.6'
+  // }
   stages {
     stage('Checkout') {
       steps {
