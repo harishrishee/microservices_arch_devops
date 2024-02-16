@@ -1,34 +1,21 @@
 pipeline {
   agent any
-  
+
   stages {
-    stage('Install Maven') {
-        steps {
-            script {
-                def mvnHome = tool 'Maven 3.8.4'
-                // Ensure that Maven is installed
-                if (mvnHome == null) {
-                    // Install Maven if not found
-                    def mvnInstaller = tool 'Maven 3.8.4'
-                    if (mvnInstaller == null) {
-                        echo 'Installing Maven...'
-                        // Install Maven from Apache
-                        mvnInstaller = tool name: 'Maven 3.8.4', type: 'maven', label: ''
-                    }
-                    mvnHome = mvnInstaller
-                }
-                // Set environment variable for Maven home directory
-                env.MAVEN_HOME = mvnHome
-                // Update PATH to include Maven bin directory
-                env.PATH = "${mvnHome}/bin:${env.PATH}"
-            }
-        }
+    stage('Download and Configure Maven') {
+      steps {
+          sh '''
+              mkdir -p /opt/maven
+              wget -q -O /tmp/apache-maven-3.9.6-bin.tar.gz https://dlcdn.apache.org/maven/maven-3/3.9.6/binaries/apache-maven-3.9.6-bin.tar.gz
+              tar -xf /tmp/apache-maven-3.9.6-bin.tar.gz -C /opt/maven --strip-components=1
+          '''
+      }
     }
     stage('Checkout') {
       steps {
         sh 'echo passed'
         //git branch: 'main', url: 'https://github.com/iam-veeramalla/Jenkins-Zero-To-Hero.git'
-        git branch: 'shoes-microservice-spring-boot-svc', url: 'https://github.com/harishrishee/microservices_arch_devops.git'
+        git branch: 'shoes-microservice-spring-boot-svc', credentialsId: 'PAT', url: 'https://github.com/harishrishee/microservices_arch_devops.git'
       }
     }
     stage('Build') {
