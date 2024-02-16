@@ -1,16 +1,40 @@
 pipeline {
-  agent {
-    docker {
-      image 'abhishekf5/maven-abhishek-docker-agent:v1'
-      args '--user root -v /var/run/docker.sock:/var/run/docker.sock' // mount Docker socket to access the host's Docker daemon
-    }
-  }
+  agent any
+  
   stages {
+    stage('Install Maven') {
+        steps {
+            script {
+                def mvnHome = tool 'Maven 3.8.4'
+                // Ensure that Maven is installed
+                if (mvnHome == null) {
+                    // Install Maven if not found
+                    def mvnInstaller = tool 'Maven 3.8.4'
+                    if (mvnInstaller == null) {
+                        echo 'Installing Maven...'
+                        // Install Maven from Apache
+                        mvnInstaller = tool name: 'Maven 3.8.4', type: 'maven', label: ''
+                    }
+                    mvnHome = mvnInstaller
+                }
+                // Set environment variable for Maven home directory
+                env.MAVEN_HOME = mvnHome
+                // Update PATH to include Maven bin directory
+                env.PATH = "${mvnHome}/bin:${env.PATH}"
+            }
+        }
+    }
     stage('Checkout') {
       steps {
         sh 'echo passed'
         //git branch: 'main', url: 'https://github.com/iam-veeramalla/Jenkins-Zero-To-Hero.git'
         git branch: 'shoes-microservice-spring-boot-svc', url: 'https://github.com/harishrishee/microservices_arch_devops.git'
+      }
+    }
+    stage('Build') {
+      steps {
+          // Run Maven commands
+          sh 'mvn clean install'
       }
     }
     // stage('Static Code Analysis') {
