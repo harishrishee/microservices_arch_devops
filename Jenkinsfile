@@ -1,16 +1,11 @@
 pipeline {
   agent any
 
+  tools {
+        maven 'Maven 3.9.6'
+  }
+
   stages {
-    stage('Download and Configure Maven') {
-      steps {
-          sh '''
-              mkdir -p /opt/maven
-              wget -q -O /tmp/apache-maven-3.9.6-bin.tar.gz https://dlcdn.apache.org/maven/maven-3/3.9.6/binaries/apache-maven-3.9.6-bin.tar.gz
-              tar -xf /tmp/apache-maven-3.9.6-bin.tar.gz -C /opt/maven --strip-components=1
-          '''
-      }
-    }
     stage('Checkout') {
       steps {
         sh 'echo passed'
