@@ -29,7 +29,7 @@ pipeline {
         stage('Update Remote URL') {
             environment {
                 GIT_CREDENTIALS = credentials('PAT')
-                REPOSITORY_URL = 'https://github.com/harishrishee/microservices_arch_devops.git'        
+                REPOSITORY_URL = 'github.com/harishrishee/microservices_arch_devops.git'        
             }
             steps {
                 script {
