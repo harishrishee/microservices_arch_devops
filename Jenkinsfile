@@ -26,13 +26,31 @@ pipeline {
                 }
             }
         }
-        
+        stage('Update Remote URL') {
+             environment {
+                GIT_CREDENTIALS = credentials('PAT')
+            }
+            steps {
+                script {
+                    def repositoryUrl = 'https://github.com/harishrishee/microservices_arch_devops.git'
+                    def credentials = env.GIT_CREDENTIALS
+                    
+                    // Extract Git username and token from the credentials
+                    def parts = credentials.split(':')
+                    def username = parts[0]
+                    def token = parts[1]
+                    
+                    // Update the Git remote URL with username and token
+                    sh "git remote set-url origin https://${username}:${token}@${repositoryUrl}"
+                    sh 'git push --set-upstream origin main'
+                }
+            }
+        }
         stage('Commit Changes') {
             steps {
                 // Commit the changes back to the repository
                 sh 'git add shoes-microservice-spring-boot-svc/values.yaml'
                 sh 'git commit -m "Update tag in values.yaml"'
-                sh 'git push --set-upstream origin main'
                 sh 'git push'
             }
         }
