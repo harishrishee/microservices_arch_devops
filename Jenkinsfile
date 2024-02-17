@@ -32,6 +32,7 @@ pipeline {
                 // Commit the changes back to the repository
                 sh 'git add shoes-microservice-spring-boot-svc/values.yaml'
                 sh 'git commit -m "Update tag in values.yaml"'
+                sh 'git push --set-upstream origin main'
                 sh 'git push'
             }
         }
