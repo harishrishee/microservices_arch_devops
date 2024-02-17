@@ -14,6 +14,18 @@ pipeline {
             }
         }
 
+        stage('SonarQube Analysis') {
+             environment {
+                SONAR_URL = 'https://sonarqube.automationlabs.work.gd'
+                SONAR_TOKEN = credentials('sonarcube-token')
+            }
+            steps {
+                withSonarQubeEnv('sonarcube') {
+                    sh "mvn clean verify sonar:sonar -Dsonar.projectKey=shoes-microservice-spring-boot-svc -Dsonar.projectName='shoes-microservice-spring-boot-svc' -Dsonar.host.url=${SONAR_URL} -Dsonar.login=${SONAR_TOKEN}"
+                }
+            }
+        }
+
         stage('Build') {
             steps {
                 // Run Maven commands
