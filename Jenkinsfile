@@ -32,6 +32,7 @@ pipeline {
                         sh "docker login -u $DOCKER_REGISTRY_CREDENTIALS_USR -p $DOCKER_REGISTRY_CREDENTIALS_PSW"
                         sh "docker build -t ${DOCKER_IMAGE} ."
                         sh "docker push ${DOCKER_IMAGE}"
+                        sh "docker rmi ${DOCKER_IMAGE}"
                     }
                 }
             }
