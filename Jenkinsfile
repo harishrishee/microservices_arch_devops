@@ -27,21 +27,19 @@ pipeline {
             }
         }
         stage('Update Remote URL') {
-             environment {
+            environment {
                 GIT_CREDENTIALS = credentials('PAT')
+                REPOSITORY_URL = 'https://github.com/harishrishee/microservices_arch_devops.git'        
             }
             steps {
                 script {
-                    def repositoryUrl = 'https://github.com/harishrishee/microservices_arch_devops.git'
                     def credentials = env.GIT_CREDENTIALS
-                    
-                    // Extract Git username and token from the credentials
                     def parts = credentials.split(':')
                     def username = parts[0]
                     def token = parts[1]
                     
                     // Update the Git remote URL with username and token
-                    sh "git remote set-url origin https://${username}:${token}@${repositoryUrl}"
+                    sh "git remote set-url origin https://${username}:${token}@${env.REPOSITORY_URL}"
                     sh 'git push --set-upstream origin main'
                 }
             }
